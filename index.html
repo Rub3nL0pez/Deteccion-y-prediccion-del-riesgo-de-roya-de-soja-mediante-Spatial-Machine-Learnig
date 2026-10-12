@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoRoya ML | Detección y Predicción del Riesgo de Roya de Soja con Spatial Machine Learning</title>
+  <meta name="description" content="Plataforma de innovación agritech que combina teledetección satelital, microclima y Spatial Machine Learning para anticipar y predecir el riesgo de Roya Asiática de la Soja (Phakopsora pachyrhizi) con hasta 14 días de antelación.">
+  <meta name="keywords" content="Roya de soja, Spatial Machine Learning, Phakopsora pachyrhizi, Teledetección, Sentinel-2, Agritech, Modelado predictivo, Agricultura de precisión">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+  <!-- Background Glow & Grid Canvas -->
+  <div class="ambient-glow glow-1" aria-hidden="true"></div>
+  <div class="ambient-glow glow-2" aria-hidden="true"></div>
+  <div class="ambient-glow glow-3" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#hero" class="brand-logo" aria-label="Inicio GeoRoya ML">
+        <div class="logo-icon">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 2L4 9V23L16 30L28 23V9L16 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M16 8C12 12 11 17 16 23C21 17 20 12 16 8Z" fill="url(#leaf-gradient)"/>
+            <circle cx="16" cy="15" r="2.5" fill="#f59e0b"/>
+            <defs>
+              <linearGradient id="leaf-gradient" x1="16" y1="8" x2="16" y2="23" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#10b981"/>
+                <stop offset="1" stop-color="#059669"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">GeoRoya<span class="accent">ML</span></span>
+          <span class="brand-sub">Spatial Intelligence I+D</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu" id="navMenu">
+        <ul class="nav-links">
+          <li><a href="#problema" class="nav-link">Problema</a></li>
+          <li><a href="#metodologia" class="nav-link">Tecnología</a></li>
+          <li><a href="#simulador" class="nav-link">Simulador</a></li>
+          <li><a href="#validacion" class="nav-link">Validación</a></li>
+          <li><a href="#publico" class="nav-link">Público Objetivo</a></li>
+          <li><a href="#equipo" class="nav-link">Equipo</a></li>
+          <li><a href="#calculadora" class="nav-link">Impacto ROI</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <a href="#contacto" class="btn btn-primary btn-sm">Solicitar Piloto</a>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            <span>PROYECTO DE INNOVACIÓN I+D • SPATIAL MACHINE LEARNING</span>
+          </div>
+
+          <h1 class="hero-title">
+            Detección y predicción del riesgo de <span class="highlight">Roya de la Soja</span> con Inteligencia Espacial
+          </h1>
+
+          <p class="hero-description">
+            Transformamos el monitoreo fitosanitario tradicional combinando <strong>teledetección satelital, microclima continuo y Spatial Machine Learning</strong>. Anticipamos focos de infección de <em>Phakopsora pachyrhizi</em> hasta con <strong>14 días de antelación</strong>, protegiendo rindes y optimizando aplicaciones.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#simulador" class="btn btn-primary btn-lg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Explorar Simulador de Riesgo
+            </a>
+            <a href="#validacion" class="btn btn-secondary btn-lg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              Ver Datos de Validación
+            </a>
+          </div>
+
+          <!-- Quick Metrics Bar -->
+          <div class="hero-metrics">
+            <div class="metric-card">
+              <span class="metric-num">0.941</span>
+              <span class="metric-label">AUC-ROC Validación Espacial</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-card">
+              <span class="metric-num">10-14 d</span>
+              <span class="metric-label">Ventana de Anticipación</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-card">
+              <span class="metric-num">-32%</span>
+              <span class="metric-label">Uso Innecesario de Fungicidas</span>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-card">
+              <span class="metric-num">10 m</span>
+              <span class="metric-label">Resolución Sentinel-2</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="visual-wrapper glass-panel">
+            <img src="assets/hero_satellite.png" alt="Visualización satelital de mapas de riesgo geoespacial de roya de soja con Spatial Machine Learning" class="hero-img" loading="eager">
+            
+            <div class="hero-floating-card card-top">
+              <div class="card-status-dot alert-critical"></div>
+              <div>
+                <p class="float-title">Lote Norte #4 - Alerta Crítica</p>
+                <p class="float-desc">Rocío >8.5h | Índice de riesgo: <strong>89%</strong></p>
+              </div>
+            </div>
+
+            <div class="hero-floating-card card-bottom">
+              <div class="card-status-dot alert-ok"></div>
+              <div>
+                <p class="float-title">Autocorrelación Espacial</p>
+                <p class="float-desc">Moran's I: <strong>0.76 (p &lt; 0.001)</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EL PLANTEAMIENTO DEL PROBLEMA -->
+    <section class="section problem-section" id="problema">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge">DIAGNÓSTICO DEL PROBLEMA</span>
+          <h2 class="section-title">La Roya Asiática de la Soja: Una amenaza silenciosa de alta dispersión</h2>
+          <p class="section-subtitle">
+            ¿Por qué los métodos actuales de monitoreo llegan tarde y por qué el Machine Learning convencional falla al ignorar la geografía?
+          </p>
+        </div>
+
+        <div class="problem-grid">
+          <!-- Card 1: Pérdidas devastadoras -->
+          <div class="feature-card glass-panel">
+            <div class="card-icon red-glow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+              </svg>
+            </div>
+            <h3>Pérdidas de hasta el 80% del rinde</h3>
+            <p>
+              El hongo <em>Phakopsora pachyrhizi</em> provoca defoliación prematura acelerada, impidiendo el llenado de grano. Sin intervención oportuna, un lote puede perder más del 70% de su rendimiento en menos de 21 días.
+            </p>
+            <ul class="card-specs">
+              <li>• Pérdidas económicas millonarias en el Cono Sur cada campaña.</li>
+              <li>• Costos de fungicidas que superan los $40 USD/hectárea por pasada.</li>
+            </ul>
+          </div>
+
+          <!-- Card 2: Monitoreo tradicional ciego -->
+          <div class="feature-card glass-panel">
+            <div class="card-icon amber-glow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="8" y1="11" x2="14" y2="11"></line>
+              </svg>
+            </div>
+            <h3>El monitoreo visual llega tarde</h3>
+            <p>
+              Cuando un agrónomo detecta pústulas a simple vista con lupa en el estrato medio o bajo, la infección ya ocurrió hace 7-10 días y el inóculo de esporas ya se encuentra dispersado en lotes vecinos por el viento.
+            </p>
+            <ul class="card-specs">
+              <li>• Imposible recorrer exhaustivamente miles de hectáreas a tiempo.</li>
+              <li>• Aplicaciones reactivas de rescate con menor eficacia curativa.</li>
+            </ul>
+          </div>
+
+          <!-- Card 3: La trampa del ML Clásico -->
+          <div class="feature-card glass-panel">
+            <div class="card-icon purple-glow">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 20V10M12 20V4M6 20v-6"></path>
+                <circle cx="12" cy="12" r="9" stroke-dasharray="2 2"></circle>
+              </svg>
+            </div>
+            <h3>La falacia de los modelos I.I.D.</h3>
+            <p>
+              El Machine Learning tradicional asume que las observaciones son independientes e idénticamente distribuidas (IID). Ignora la <strong>Primera Ley de la Geografía (Tobler)</strong>: la probabilidad de roya en un lote depende directamente de los lotes linderos y de la dirección eólica.
+            </p>
+            <ul class="card-specs">
+              <li>• "Data leakage" espacial en validaciones estándar que infla métricas artificialmente.</li>
+              <li>• Necesidad de modelar vecindad, distancias y retardos espaciotemporales.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Comparative Banner: Tradicional vs GeoRoya -->
+        <div class="comparison-banner glass-panel">
+          <div class="comparison-column traditional">
+            <div class="column-badge badge-danger">Paradigma Convencional</div>
+            <h4>Monitoreo reactivo & aplicaciones a calendario</h4>
+            <ul>
+              <li><span class="x-mark">✕</span> Inspección visual aleatoria con alto margen de error humano</li>
+              <li><span class="x-mark">✕</span> Aplicaciones preventivas a ciegas (alto costo y riesgo ambiental)</li>
+              <li><span class="x-mark">✕</span> Detección cuando la severidad foliar ya superó el umbral de daño económico</li>
+              <li><span class="x-mark">✕</span> Estaciones meteorológicas aisladas sin interpolación geoespacial</li>
+            </ul>
+          </div>
+
+          <div class="vs-divider">
+            <span>VS</span>
+          </div>
+
+          <div class="comparison-column modern">
+            <div class="column-badge badge-success">Solución GeoRoya ML</div>
+            <h4>Spatial Machine Learning & Alerta Temprana Continua</h4>
+            <ul>
+              <li><span class="check-mark">✓</span> Anticipación 10-14 días antes de la manifestación de pústulas visibles</li>
+              <li><span class="check-mark">✓</span> Modelado explícito de autocorrelación espacial y dispersión por viento</li>
+              <li><span class="check-mark">✓</span> Prescripciones dirigidas por lote: aplicar solo donde y cuando hay riesgo real</li>
+              <li><span class="check-mark">✓</span> Fusión satelital (Sentinel-2 10m) + reanálisis ERA5-Land en tiempo real</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Interactive Leaf Detection Breakdown -->
+        <div class="leaf-insight-box glass-panel">
+          <div class="leaf-visual">
+            <img src="assets/leaf_detection.png" alt="Detección microscópica y espectral de pústulas tempranas de Phakopsora pachyrhizi" loading="lazy">
+            <div class="scan-line" aria-hidden="true"></div>
+          </div>
+          <div class="leaf-details">
+            <span class="pill-tag">BIOLOGÍA + INTELIGENCIA ARTIFICIAL</span>
+            <h3>Comprendiendo el Microclima Crítico de Infección</h3>
+            <p>
+              Para que la espora de la roya germine y penetre la cutícula foliar de la soja, se requiere una ventana biológica muy precisa:
+            </p>
+            <div class="parameters-grid">
+              <div class="param-item">
+                <span class="param-val">18°C - 26°C</span>
+                <span class="param-name">Temperatura Óptima</span>
+                <span class="param-desc">Por encima de 30°C o bajo 15°C la germinación se detiene drásticamente.</span>
+              </div>
+              <div class="param-item">
+                <span class="param-val">&gt; 6 Horas</span>
+                <span class="param-name">Rocío Foliar Continuo</span>
+                <span class="param-desc">Agua libre sobre la hoja indispensable para la elongación del tubo germinativo.</span>
+              </div>
+              <div class="param-item">
+                <span class="param-val">Vector Eólico</span>
+                <span class="param-name">Dispersión Urediniosporas</span>
+                <span class="param-desc">Transporte aéreo pasivo modelado con vectores espaciales de viento zonal.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- METODOLOGÍA & TECNOLOGÍA SPATIAL ML -->
+    <section class="section methodology-section" id="metodologia">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge">ARQUITECTURA & METODOLOGÍA</span>
+          <h2 class="section-title">El Pipeline de Spatial Machine Learning</h2>
+          <p class="section-subtitle">
+            Cómo transformamos petabytes de datos espaciotemporales en predicciones agronómicas accionables a nivel de lote.
+          </p>
+        </div>
+
+        <!-- Pipeline Steps Grid -->
+        <div class="pipeline-flow">
+          <!-- Step 1 -->
+          <div class="pipeline-step glass-panel">
+            <div class="step-num">01</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <h4>Ingesta Multifuente</h4>
+            <p>Fusión satelital multiespectral (Sentinel-2, Landsat-8/9: Bandas Red-Edge, NIR, SWIR), microclima ERA5-Land horario y red de estaciones meteorológicas en tiempo real.</p>
+            <div class="step-tech">Sentinel-2 • ERA5-Land • SRTM DEM</div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="pipeline-step glass-panel">
+            <div class="step-num">02</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+            </div>
+            <h4>Feature Engineering Espacial</h4>
+            <p>Cálculo de variables espaciotemporales: Spatial Lags, Moran's I local (LISA), índices espectrales (NDVI, NDRE, EVI), horas acumuladas de rocío y matrices de vecindad W.</p>
+            <div class="step-tech">GeoPandas • PySAL • rasterio • xarray</div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="pipeline-step glass-panel">
+            <div class="step-num">03</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </div>
+            <h4>Modelos Espaciales Predictivos</h4>
+            <p>Ensamble de Spatial Random Forest, XGBoost geoespacial y regresión logística espacial con regularización de distancia geodésica y buffers espaciotemporales.</p>
+            <div class="step-tech">Spatial XGBoost • Random Forest • GNNs</div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="pipeline-step glass-panel">
+            <div class="step-num">04</div>
+            <div class="step-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+            <h4>Validación Espacial Estricta</h4>
+            <p>Spatial Block Cross-Validation (Buffers de bloqueo espacial de 30 km y horizontes temporales móviles) para eliminar la fuga de datos por contigüidad.</p>
+            <div class="step-tech">Spatial Block CV • AUC-ROC 0.941</div>
+          </div>
+        </div>
+
+        <!-- Tech Deep-Dive Interactive Tabs -->
+        <div class="tech-tabs-card glass-panel">
+          <div class="tab-buttons" role="tablist">
+            <button class="tab-btn active" data-tab="spatial-cv">¿Por qué Spatial Cross-Validation?</button>
+            <button class="tab-btn" data-tab="spectral-indices">Índices Espectrales Clave</button>
+            <button class="tab-btn" data-tab="microclimate">Dinámica Microclimática</button>
+          </div>
+
+          <div class="tab-content active" id="tab-spatial-cv">
+            <div class="tab-inner-grid">
+              <div>
+                <h3>Prevención de Fuga de Información Geoespacial</h3>
+                <p>
+                  En datos agrícolas, dos lotes adyacentes comparten clima, tipo de suelo y presión de esporas. Si usamos un K-Fold aleatorio convencional, un lote vecino en el set de entrenamiento "revela" la respuesta del set de prueba, generando un <strong>sobreajuste ilusorio</strong>.
+                </p>
+                <p>
+                  En GeoRoya ML implementamos <strong>Spatial Block Cross-Validation</strong>: dividimos el territorio en clústeres espaciales con zonas de amortiguamiento (buffers) de 30 km. Si entrenamos con la zona de Pergamino, evaluamos en Marcos Juárez sin contaminación territorial.
+                </p>
+              </div>
+              <div class="cv-diagram-box">
+                <div class="cv-badge">Buffer Espacial de 30 km</div>
+                <div class="cv-boxes-mockup">
+                  <div class="block-box train">Bloque Train A</div>
+                  <div class="block-buffer">Zona Buffer (Excluida)</div>
+                  <div class="block-box test">Bloque Test B</div>
+                </div>
+                <div class="cv-legend">
+                  <span><span class="dot train-dot"></span> Entrenamiento</span>
+                  <span><span class="dot test-dot"></span> Test Real</span>
+                  <span><span class="dot buffer-dot"></span> Sin Data Leakage</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="tab-spectral-indices">
+            <div class="tab-inner-grid">
+              <div>
+                <h3>Firmas Multiespectrales de Estrés Prematuro</h3>
+                <p>
+                  Las esporas de roya infectan primero el estrato foliar bajo, pero la senescencia y la degradación de clorofila alteran la reflectancia en longitudes de onda específicas antes de que el ojo humano perciba clorosis.
+                </p>
+                <div class="indices-list">
+                  <div class="index-row">
+                    <strong>NDRE (Normalized Difference Red Edge):</strong> Sensible al contenido de clorofila en el dosel denso sin saturarse como el NDVI tradicional.
+                  </div>
+                  <div class="index-row">
+                    <strong>NDWI (Índice de Agua):</strong> Detecta pérdida de turgencia celular inducida por la esporulación fungosa.
+                  </div>
+                  <div class="index-row">
+                    <strong>EVI (Enhanced Vegetation Index):</strong> Corrige la influencia del fondo del suelo y la dispersión atmosférica.
+                  </div>
+                </div>
+              </div>
+              <div class="formula-box">
+                <code>NDRE = (NIR - RedEdge) / (NIR + RedEdge)</code>
+                <code>Spatial Lag = W · y (Matriz de Pesos Espaciales)</code>
+                <code>Moran's I = (N / Σw) · (ΣΣ w_ij (y_i - ȳ)(y_j - ȳ)) / Σ(y_i - ȳ)²</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="tab-microclimate">
+            <div class="tab-inner-grid">
+              <div>
+                <h3>Reanálisis Microclimático Horario</h3>
+                <p>
+                  La lluvia por sí sola no predice la roya: un chaparrón de 20 minutos con viento fuerte seca la hoja rápidamente. El modelo computa el <strong>período continuo de rocío foliar</strong> a partir de la depresión del punto de rocío y la radiación neta nocturna.
+                </p>
+                <p>
+                  Cruzamos estos datos con la velocidad y dirección del vector de viento U/V para estimar plumas de dispersión aérea desde focos biológicos confirmados en la región.
+                </p>
+              </div>
+              <div class="stats-mini-grid">
+                <div class="mini-stat">
+                  <span class="num">85%+</span>
+                  <span class="lbl">Humedad relativa umbral</span>
+                </div>
+                <div class="mini-stat">
+                  <span class="num">6-10 h</span>
+                  <span class="lbl">Horas de mojado foliar</span>
+                </div>
+                <div class="mini-stat">
+                  <span class="num">21.8°C</span>
+                  <span class="lbl">Temperatura óptima media</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIMULADOR INTERACTIVO DE RIESGO DE ROYA -->
+    <section class="section simulator-section" id="simulador">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge">DEMO INTERACTIVO EN TIEMPO REAL</span>
+          <h2 class="section-title">Simulador de Riesgo Geoespacial</h2>
+          <p class="section-subtitle">
+            Interactúa con nuestro gemelo digital agrícola. Haz clic en las parcelas, desliza la línea temporal y cambia de capa para analizar la evolución predictiva de la roya.
+          </p>
+        </div>
+
+        <div class="simulator-card glass-panel">
+          <!-- Simulator Controls Bar -->
+          <div class="sim-toolbar">
+            <div class="toolbar-group">
+              <span class="toolbar-label">Capa Visual:</span>
+              <div class="layer-buttons" id="layerButtons">
+                <button class="layer-btn active" data-layer="risk">
+                  <span class="layer-indicator risk-color"></span> Riesgo Spatial ML
+                </button>
+                <button class="layer-btn" data-layer="ndvi">
+                  <span class="layer-indicator ndvi-color"></span> Vigor NDVI
+                </button>
+                <button class="layer-btn" data-layer="dew">
+                  <span class="layer-indicator dew-color"></span> Humedad / Rocío
+                </button>
+                <button class="layer-btn" data-layer="wind">
+                  <span class="layer-indicator wind-color"></span> Dispersión Viento
+                </button>
+              </div>
+            </div>
+
+            <div class="toolbar-group">
+              <span class="toolbar-label">Zona de Análisis:</span>
+              <select id="regionSelect" class="sim-select" aria-label="Seleccionar región agrícola">
+                <option value="zona-nucleo">Zona Núcleo (Marcos Juárez - Pergamino)</option>
+                <option value="litoral">Litoral Sur (Santa Fe - Entre Ríos)</option>
+                <option value="noa-nea">Región NEA (Chaco - Santiago del Estero)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Main Interactive Map Canvas + Lot Inspector -->
+          <div class="sim-workspace">
+            <div class="map-container" id="mapContainer">
+              <div class="map-header-overlay">
+                <div class="live-pill">
+                  <span class="pulse-dot"></span> PREDICCIÓN ACTIVA
+                </div>
+                <div class="map-coordinates">33° 18' S, 62° 06' W • Elevación: 114m</div>
+              </div>
+
+              <!-- SVG Interactive Vector Map of Soybean Parcels -->
+              <div class="parcels-map" id="parcelsMap">
+                <!-- SVG fields with dynamic classes -->
+                <svg viewBox="0 0 800 500" class="interactive-svg" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <!-- Background Grid Pattern -->
+                    <pattern id="soil-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+                    </pattern>
+                  </defs>
+
+                  <rect width="800" height="500" fill="url(#soil-grid)"/>
+
+                  <!-- Wind Flow Animated Particles Layer -->
+                  <g class="wind-vectors" id="windLayer" opacity="0">
+                    <line x1="80" y1="90" x2="280" y2="150" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="10 6" class="wind-line"/>
+                    <line x1="260" y1="180" x2="490" y2="260" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="10 6" class="wind-line"/>
+                    <line x1="100" y1="330" x2="340" y2="400" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="10 6" class="wind-line"/>
+                    <line x1="430" y1="110" x2="670" y2="180" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="10 6" class="wind-line"/>
+                  </g>
+
+                  <!-- Parcelas (Field Polygons) -->
+                  <!-- Lote 1: Norte Alfa -->
+                  <polygon id="lot-1" class="field-polygon active-lot" points="60,60 280,75 260,210 50,195" data-lot-id="1"/>
+                  <text x="145" y="140" class="field-label">Lote 01 - Norte (180 ha)</text>
+
+                  <!-- Lote 2: Este Beta -->
+                  <polygon id="lot-2" class="field-polygon" points="305,80 540,65 525,190 285,215" data-lot-id="2"/>
+                  <text x="390" y="145" class="field-label">Lote 02 - Este (240 ha)</text>
+
+                  <!-- Lote 3: Valle Central -->
+                  <polygon id="lot-3" class="field-polygon" points="280,235 520,210 545,360 300,380" data-lot-id="3"/>
+                  <text x="390" y="300" class="field-label">Lote 03 - Valle (310 ha)</text>
+
+                  <!-- Lote 4: Sur Delta -->
+                  <polygon id="lot-4" class="field-polygon" points="45,215 255,230 270,410 70,390" data-lot-id="4"/>
+                  <text x="140" y="320" class="field-label">Lote 04 - Sur (210 ha)</text>
+
+                  <!-- Lote 5: Lagunas Leste -->
+                  <polygon id="lot-5" class="field-polygon" points="565,90 750,110 730,270 550,250" data-lot-id="5"/>
+                  <text x="630" y="185" class="field-label">Lote 05 - Lagunas (165 ha)</text>
+
+                  <!-- Lote 6: Bajo Gamma -->
+                  <polygon id="lot-6" class="field-polygon" points="565,270 740,290 710,440 540,415" data-lot-id="6"/>
+                  <text x="615" y="365" class="field-label">Lote 06 - Bajo (190 ha)</text>
+
+                  <!-- Sensor Stations Pins -->
+                  <g class="sensor-pin" transform="translate(160, 150)">
+                    <circle r="7" fill="#10b981" class="pin-pulse"/>
+                    <circle r="3" fill="#ffffff"/>
+                  </g>
+                  <g class="sensor-pin" transform="translate(410, 310)">
+                    <circle r="7" fill="#f59e0b" class="pin-pulse"/>
+                    <circle r="3" fill="#ffffff"/>
+                  </g>
+                  <g class="sensor-pin" transform="translate(640, 370)">
+                    <circle r="7" fill="#ef4444" class="pin-pulse"/>
+                    <circle r="3" fill="#ffffff"/>
+                  </g>
+                </svg>
+
+                <div class="map-legend">
+                  <span class="legend-title" id="legendTitle">Nivel de Riesgo Spatial ML:</span>
+                  <div class="legend-bar" id="legendBar"></div>
+                  <div class="legend-labels" id="legendLabels">
+                    <span>Bajo (&lt;25%)</span>
+                    <span>Moderado (25-65%)</span>
+                    <span>Crítico (&gt;65%)</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Time Travel Horizon Slider -->
+              <div class="time-slider-wrapper">
+                <div class="time-slider-header">
+                  <span><strong>Horizonte Predictivo Temporal:</strong> <span id="currentHorizonLabel" class="time-tag">Hoy (T = 0)</span></span>
+                  <div class="time-controls">
+                    <button id="btnPlayTime" class="btn-time-play" title="Reproducir evolución temporal">
+                      <svg id="playIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                      </svg>
+                      <svg id="pauseIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none;">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                      </svg>
+                      <span id="playBtnText">Simular Tiempo</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="range-container">
+                  <input type="range" id="timeHorizonRange" min="0" max="3" step="1" value="0" aria-label="Horizonte temporal de predicción">
+                  <div class="slider-ticks">
+                    <span class="tick active" data-step="0">Hoy</span>
+                    <span class="tick" data-step="1">+3 Días</span>
+                    <span class="tick" data-step="2">+7 Días</span>
+                    <span class="tick" data-step="3">+14 Días</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Side Inspector for the selected lot -->
+            <aside class="lot-inspector glass-panel" id="lotInspector">
+              <div class="inspector-header">
+                <div>
+                  <span class="inspector-subtitle" id="inspSuperficie">Lote Agrícola • 180 ha</span>
+                  <h3 class="inspector-title" id="inspNombre">Lote 01 - Norte</h3>
+                </div>
+                <div class="risk-badge badge-warning" id="inspRiskBadge">Riesgo Moderado</div>
+              </div>
+
+              <div class="prob-meter">
+                <div class="prob-labels">
+                  <span>Probabilidad de Infección</span>
+                  <span class="prob-val" id="inspProbVal">48%</span>
+                </div>
+                <div class="prob-track">
+                  <div class="prob-fill" id="inspProbBar" style="width: 48%;"></div>
+                </div>
+              </div>
+
+              <div class="telemetry-grid">
+                <div class="tele-item">
+                  <span class="tele-label">Humedad Foliar</span>
+                  <span class="tele-val" id="inspHumedad">6.8 h</span>
+                </div>
+                <div class="tele-item">
+                  <span class="tele-label">Temp. Canopia</span>
+                  <span class="tele-val" id="inspTemp">22.4 °C</span>
+                </div>
+                <div class="tele-item">
+                  <span class="tele-label">NDRE Red-Edge</span>
+                  <span class="tele-val" id="inspNdre">0.68</span>
+                </div>
+                <div class="tele-item">
+                  <span class="tele-label">Presión Espacial (W)</span>
+                  <span class="tele-val" id="inspSpatialLag">0.72 (Alta)</span>
+                </div>
+              </div>
+
+              <div class="action-prescription">
+                <h4 class="presc-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                  </svg>
+                  Prescripción Agronómica Recomendada:
+                </h4>
+                <p id="inspPrescriptionText" class="presc-text">
+                  Condición de alerta preventiva. Se prevé que el frente húmedo persistente eleve el rocío a >8h en las próximas 48 horas. Se aconseja monitoreo del estrato inferior y planificar aplicación preventiva con triazol/estrobilurina antes de T+7.
+                </p>
+              </div>
+
+              <button class="btn btn-secondary btn-block" id="btnExportLoteReport">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Generar Reporte Fitosanitario
+              </button>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALIDACIÓN CIENTÍFICA Y RESULTADOS -->
+    <section class="section validation-section" id="validacion">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge">RIGOR CIENTÍFICO Y EMPÍRICO</span>
+          <h2 class="section-title">Validación del Modelo: Pruebas en Campo y Laboratorio</h2>
+          <p class="section-subtitle">
+            Resultados auditados mediante Spatial Cross-Validation y contraste con datos de campo (Ground Truth) en campañas agrícolas reales.
+          </p>
+        </div>
+
+        <!-- Metrics Showcase Grid -->
+        <div class="validation-grid">
+          <!-- Metric 1 -->
+          <div class="val-metric-card glass-panel">
+            <div class="val-header">
+              <span class="val-tag">SPATIAL BLOCKED CV</span>
+              <span class="val-icon">🎯</span>
+            </div>
+            <div class="val-main-num">0.941</div>
+            <h4>AUC-ROC Geoespacial</h4>
+            <p>Evaluado en bloques espaciales independientes de 30 km para evitar sobreajuste por proximidad territorial.</p>
+            <div class="val-compare">
+              <span>ML Convencional (IID): <strong>0.792</strong> (Engañoso)</span>
+              <span>Spatial ML (W-Matrix): <strong>0.941</strong></span>
+            </div>
+          </div>
+
+          <!-- Metric 2 -->
+          <div class="val-metric-card glass-panel">
+            <div class="val-header">
+              <span class="val-tag">DETECCIÓN TEMPRANA</span>
+              <span class="val-icon">⏱️</span>
+            </div>
+            <div class="val-main-num">11.4 d</div>
+            <h4>Anticipación Promedio</h4>
+            <p>Ventana de tiempo ganada respecto a la primera observación de pústulas en monitoreo a campo tradicional.</p>
+            <div class="val-compare">
+              <span>Monitoreo Ocular: <strong>0 días</strong> (Tardío)</span>
+              <span>GeoRoya Alerta: <strong>+11.4 días</strong></span>
+            </div>
+          </div>
+
+          <!-- Metric 3 -->
+          <div class="val-metric-card glass-panel">
+            <div class="val-header">
+              <span class="val-tag">SENSIBILIDAD FITOSANITARIA</span>
+              <span class="val-icon">🔬</span>
+            </div>
+            <div class="val-main-num">91.8%</div>
+            <h4>Precisión en Zonas Críticas</h4>
+            <p>Capacidad para clasificar correctamente lotes con inóculo activo antes de superar el 5% de severidad foliar.</p>
+            <div class="val-compare">
+              <span>Falsos Positivos: <strong>8.2%</strong></span>
+              <span>F1-Score Ponderado: <strong>0.892</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ground Truth & Protocol Interactive Box -->
+        <div class="validation-deepdive glass-panel">
+          <div class="deepdive-tabs">
+            <button class="dd-tab active" data-dd="protocol">Protocolo de Verificación Terrestre (Ground Truth)</button>
+            <button class="dd-tab" data-dd="confusion">Matriz de Confusión Espacial</button>
+            <button class="dd-tab" data-dd="campaigns">Campañas Evaluadas (2023-2025)</button>
+          </div>
+
+          <div class="deepdive-content active" id="dd-protocol">
+            <div class="protocol-grid">
+              <div class="protocol-item">
+                <div class="proto-icon">1</div>
+                <h4>Trampas de Esporas Volumétricas</h4>
+                <p>Instalación de trampas tipo Burkard de 7 días georreferenciadas para contabilizar concentración de urediniosporas/m³ de aire durante el llenado de grano (R1-R6).</p>
+              </div>
+              <div class="protocol-item">
+                <div class="proto-icon">2</div>
+                <h4>Microscopía y PCR en Hoja</h4>
+                <p>Muestreo sistemático de 100 folíolos por lote en estratos bajo, medio y alto. Confirmación fitopatológica por microscopio óptico y qPCR confirmatorio.</p>
+              </div>
+              <div class="protocol-item">
+                <div class="proto-icon">3</div>
+                <h4>Registro Microclimático Local</h4>
+                <p>Estaciones agrometeorológicas iMETOS en parcela para correlacionar horas exactas de mojado foliar y temperatura con reanálisis ERA5.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="deepdive-content" id="dd-confusion">
+            <div class="confusion-matrix-wrapper">
+              <div class="matrix-table">
+                <div class="matrix-cell header-cell empty"></div>
+                <div class="matrix-cell header-cell">Predicho Negativo</div>
+                <div class="matrix-cell header-cell">Predicho Positivo (Riesgo)</div>
+
+                <div class="matrix-cell header-cell">Real Negativo (Sano)</div>
+                <div class="matrix-cell cell-tn">
+                  <span class="cell-num">1,420 lotes</span>
+                  <span class="cell-desc">Verdaderos Negativos (TN)</span>
+                </div>
+                <div class="matrix-cell cell-fp">
+                  <span class="cell-num">112 lotes</span>
+                  <span class="cell-desc">Falsos Positivos (FP: Alerta precautoria)</span>
+                </div>
+
+                <div class="matrix-cell header-cell">Real Positivo (Roya)</div>
+                <div class="matrix-cell cell-fn">
+                  <span class="cell-num">48 lotes</span>
+                  <span class="cell-desc">Falsos Negativos (FN: Baja tasa de escape)</span>
+                </div>
+                <div class="matrix-cell cell-tp">
+                  <span class="cell-num">890 lotes</span>
+                  <span class="cell-desc">Verdaderos Positivos (TP: Alertas efectivas)</span>
+                </div>
+              </div>
+              <div class="matrix-summary">
+                <p><strong>Impacto de la Matriz:</strong> Minimizar los Falsos Negativos (escape de enfermedad) es la prioridad fitosanitaria número 1. Nuestra tasa de escape es menor al <strong>3.4%</strong>, garantizando seguridad absoluta al productor.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="deepdive-content" id="dd-campaigns">
+            <div class="campaigns-timeline">
+              <div class="camp-card">
+                <span class="camp-year">Campaña 2023/24</span>
+                <h4>Fase Piloto Núcleo (Córdoba & Santa Fe)</h4>
+                <p>Validación sobre 34,000 hectáreas distribuidas en 22 establecimientos agrícolas. Validación de predicción de entrada de frente húmedo desde Paraguay y norte argentino.</p>
+              </div>
+              <div class="camp-card">
+                <span class="camp-year">Campaña 2024/25</span>
+                <h4>Expansión Multirregional (NEA & Litoral)</h4>
+                <p>Escalamiento a 85,000 hectáreas con inclusión de datos Sentinel-2 y calibración de bandas Red-Edge para cultivares de ciclo corto y largo.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PÚBLICO OBJETIVO -->
+    <section class="section audience-section" id="publico">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge">TRANSFERENCIA & IMPACTO</span>
+          <h2 class="section-title">Público Objetivo: ¿A quién beneficia esta innovación?</h2>
+          <p class="section-subtitle">
+            Diseñado para toda la cadena de valor de la producción sojera y la toma de decisiones fitosanitarias de precisión.
+          </p>
+        </div>
+
+        <div class="audience-grid">
+          <!-- Target 1: Productores -->
+          <div class="audience-card glass-panel">
+            <div class="aud-icon">🚜</div>
+            <h3>Productores y Administradores de Campos</h3>
+            <p class="aud-desc">Productores de mediana y gran escala que buscan maximizar el margen bruto por hectárea y cuidar sus lotes.</p>
+            <div class="aud-benefits">
+              <div class="ben-item"><span class="check">✓</span> <strong>Ahorro directo:</strong> Evita 1 a 2 pasadas innecesarias de fungicida por campaña.</div>
+              <div class="ben-item"><span class="check">✓</span> <strong>Protección de rinde:</strong> Evita caídas de hasta 15-20 qq/ha por ataque sorpresivo.</div>
+              <div class="ben-item"><span class="check">✓</span> <strong>Alertas SMS/WhatsApp:</strong> Avisos instantáneos cuando un lote entra en zona de riesgo.</div>
+            </div>
+          </div>
+
+          <!-- Target 2: Asesores e Ingenieros -->
+          <div class="audience-card glass-panel">
+            <div class="aud-icon">🌱</div>
+            <h3>Ingenieros Agrónomos & Asesores Fitosanitarios</h3>
+            <p class="aud-desc">Profesionales responsables de la prescripción técnica y la sanidad vegetal en múltiples establecimientos.</p>
+            <div class="aud-benefits">
+              <div class="ben-item"><span class="check">✓</span> <strong>Monitoreo dirigido:</strong> Dirigir las recorridas a los lotes donde el modelo marca mayor probabilidad.</div>
+              <div class="ben-item"><span class="check">✓</span> <strong>Soporte a la decisión (DSS):</strong> Fundamentación técnica ante clientes para aplicar en ventana óptima.</div>
+              <div class="ben-item"><span class="check">✓</span> <strong>Reportes automáticos:</strong> Mapas de calor listos para incorporar a informes agronómicos.</div>
+            </div>
+          </div>
+
+          <!-- Target 3: Cooperativas y Acopios -->
+          <div class="audience-card glass-panel">
+            <div class="aud-icon">🏢</div>
+            <h3>Cooperativas Agrícolas & Acopios Regionales</h3>
+            <p class="aud-desc">Organizaciones que gestionan la logística de agroquímicos y asesoran a comunidades de productores asociados.</p>
+            <div class="aud-benefits">
+              <div class="ben-item"><span class="check">✓</span> <strong>Logística de insumos:</strong> Prever demanda de moléculas específicas con semanas de anticipación.</div>
+              <div class="ben-item"><span class="check">✓</span> <strong>Alertas comunitarias:</strong> Red de aviso temprano para socios de la cooperativa.</div>
+              <div class="ben-item"><span class="check">✓</span> <strong>Mitigación de resistencia fúngica:</strong> Rotación inteligente de modos de acción.</div>
+            </div>
+          </div>
+
+          <!-- Target 4: Aseguradoras y AgTechs -->
+          <div class="audience-card glass-panel">
+            <div class="aud-icon">📈</div>
+            <h3>Aseguradoras Agrícolas, I+D & AgTechs</h3>
+            <p class="aud-desc">Compañías financieras y desarrolladoras tecnológicas que precisan métricas objetivas de riesgo biológico.</p>
+            <div class="aud-benefits">
+              <div class="ben-item"><span class="check">✓</span> <strong>Pólizas paramétricas:</strong> Modelado actuarial de riesgo biológico con base satelital.</div>
+              <div class="ben-item"><span class="check">✓</span> <strong>API Cloud:</strong> Integración plug-and-play en plataformas de gestión agrícola existentes.</div>
+              <div class="ben-item"><span class="check">✓</span> <strong>Validación científica:</strong> Algoritmos transparentes y reproducibles.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALCULADORA INTERACTIVA DE RETORNO DE INVERSIÓN (ROI) -->
+    <section class="section roi-section" id="calculadora">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge">IMPACTO ECONÓMICO Y AMBIENTAL</span>
+          <h2 class="section-title">Calculadora de Retorno y Sostenibilidad</h2>
+          <p class="section-subtitle">
+            Estima cuánto dinero, producto químico y huella ambiental puede ahorrar tu establecimiento agrícola aplicando Spatial Machine Learning.
+          </p>
+        </div>
+
+        <div class="roi-card glass-panel">
+          <div class="roi-controls">
+            <div class="slider-field">
+              <div class="slider-labels">
+                <label for="hectareasInput">Superficie Total Sembrada de Soja:</label>
+                <span class="slider-display-val" id="haValueDisplay">2,500 ha</span>
+              </div>
+              <input type="range" id="hectareasInput" min="200" max="15000" step="100" value="2500" class="custom-slider">
+              <div class="slider-minmax">
+                <span>200 ha</span>
+                <span>5,000 ha</span>
+                <span>10,000 ha</span>
+                <span>15,000 ha</span>
+              </div>
+            </div>
+
+            <div class="slider-field">
+              <div class="slider-labels">
+                <label for="costoFungicidaInput">Costo Promedio de Aplicación de Fungicida:</label>
+                <span class="slider-display-val" id="costValueDisplay">$32 USD/ha</span>
+              </div>
+              <input type="range" id="costoFungicidaInput" min="20" max="55" step="1" value="32" class="custom-slider">
+              <div class="slider-minmax">
+                <span>$20 USD/ha</span>
+                <span>$35 USD/ha</span>
+                <span>$55 USD/ha</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="roi-results-grid">
+            <div class="roi-kpi-box highlight-box">
+              <span class="roi-kpi-sub">Ahorro Económico Estimado / Campaña</span>
+              <div class="roi-kpi-val" id="roiAhorroUSD">$51,200 USD</div>
+              <span class="roi-kpi-detail">Al reducir 0.8 aplicaciones innecesarias en zonas sin riesgo real</span>
+            </div>
+
+            <div class="roi-kpi-box">
+              <span class="roi-kpi-sub">Rinde Protegido Estimado</span>
+              <div class="roi-kpi-val text-emerald" id="roiRindeProtegido">1,125 Tn</div>
+              <span class="roi-kpi-detail">Equivalente a evitar defoliación en estadios R3-R5 en lotes críticos</span>
+            </div>
+
+            <div class="roi-kpi-box">
+              <span class="roi-kpi-sub">Reducción de Químicos al Ecosistema</span>
+              <div class="roi-kpi-val text-cyan" id="roiQuimicosAhorro">2,000 L</div>
+              <span class="roi-kpi-detail">Litros de formulado químico evitados por aplicaciones de precisión</span>
+            </div>
+
+            <div class="roi-kpi-box">
+              <span class="roi-kpi-sub">Emisiones de Diésel Evitadas</span>
+              <div class="roi-kpi-val text-amber" id="roiDieselAhorro">14.8 Tn CO₂</div>
+              <span class="roi-kpi-detail">Menor cantidad de horas de paso de pulverizadoras terrestres y aéreas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EQUIPO DEL PROYECTO -->
+    <section class="section team-section" id="equipo">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge">TALENTO Y RESPALDO ACADÉMICO</span>
+          <h2 class="section-title">El Equipo Detrás del Proyecto</h2>
+          <p class="section-subtitle">
+            Un equipo multidisciplinario en la intersección de la Ciencia de Datos Espaciales, la Fitopatología y la Ingeniería de Software Agronómica.
+          </p>
+        </div>
+
+        <div class="team-grid">
+          <!-- Miembro 1 -->
+          <div class="team-card glass-panel">
+            <div class="member-avatar">
+              <div class="avatar-circle">MB</div>
+            </div>
+            <h3 class="member-name">Ing. Marcos V. Benítez</h3>
+            <span class="member-role">Líder de Spatial Data Science & ML</span>
+            <p class="member-bio">
+              Especialista en Modelado Predictivo Geoespacial, Geoestadística y Algoritmos de Machine Learning aplicados al agro. Investigador en el área de Spatial Cross-Validation.
+            </p>
+            <div class="member-tags">
+              <span>Spatial ML</span>
+              <span>GeoPandas</span>
+              <span>Modelos Espaciales</span>
+            </div>
+          </div>
+
+          <!-- Miembro 2 -->
+          <div class="team-card glass-panel">
+            <div class="member-avatar">
+              <div class="avatar-circle">ES</div>
+            </div>
+            <h3 class="member-name">Dra. Elena Santillán</h3>
+            <span class="member-role">Directora Científica & Fitopatóloga</span>
+            <p class="member-bio">
+              Doctora en Ciencias Agropecuarias con más de 12 años investigando la epidemiología de <em>Phakopsora pachyrhizi</em>, curvas de esporulación y resistencia a fungicidas en soja.
+            </p>
+            <div class="member-tags">
+              <span>Epidemiología</span>
+              <span>Sanidad Vegetal</span>
+              <span>Ground Truth</span>
+            </div>
+          </div>
+
+          <!-- Miembro 3 -->
+          <div class="team-card glass-panel">
+            <div class="member-avatar">
+              <div class="avatar-circle">CD</div>
+            </div>
+            <h3 class="member-name">Lic. Camila Duarte</h3>
+            <span class="member-role">Especialista en Teledetección & GIS</span>
+            <p class="member-bio">
+              Experta en procesamiento de constelaciones satelitales Sentinel-2 y Landsat, calibración de firmas espectrales Red-Edge y cálculo de índices de estrés foliar continuo.
+            </p>
+            <div class="member-tags">
+              <span>Sentinel-2</span>
+              <span>QGIS</span>
+              <span>Índices Espectrales</span>
+            </div>
+          </div>
+
+          <!-- Miembro 4 -->
+          <div class="team-card glass-panel">
+            <div class="member-avatar">
+              <div class="avatar-circle">AM</div>
+            </div>
+            <h3 class="member-name">Agustín Morales</h3>
+            <span class="member-role">Ingeniero MLOps & Arquitectura Cloud</span>
+            <p class="member-bio">
+              Diseño de pipelines de inferencia automatizada en la nube, ingesta horaria de modelos numéricos ERA5-Land y desarrollo de APIs geoespaciales de alta disponibilidad.
+            </p>
+            <div class="member-tags">
+              <span>MLOps</span>
+              <span>Pipelines Cloud</span>
+              <span>Geo-APIs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Academic & Institutional Endorsement Banner -->
+        <div class="endorsement-card glass-panel">
+          <div class="endorsement-logo-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="endorsement-icon">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+          </div>
+          <div>
+            <h4>Proyecto en el Marco de Innovación en Machine Learning</h4>
+            <p>
+              Desarrollado en articulación académica e investigativa para la cátedra de Machine Learning (ML1) y facultades de ciencias agropecuarias y exactas. Compatible con protocolos de alerta fitosanitaria y redes de monitoreo agronómico de Sudamérica.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PREGUNTAS FRECUENTES (FAQ) -->
+    <section class="section faq-section" id="faq">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-badge">RESOLUCIÓN DE DUDAS</span>
+          <h2 class="section-title">Preguntas Frecuentes</h2>
+          <p class="section-subtitle">
+            Todo lo que necesitas saber sobre la implementación, precisión y uso práctico de GeoRoya ML.
+          </p>
+        </div>
+
+        <div class="faq-accordion" id="faqAccordion">
+          <!-- FAQ 1 -->
+          <div class="faq-item glass-panel">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Cómo se diferencia de una estación meteorológica tradicional con alertas de rocío?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Una estación meteorológica solo mide variables en un punto puntual. Si llueve a 5 km, no lo registra. Además, el clima es solo una condición necesaria pero no suficiente: se necesita inóculo presente. GeoRoya ML modela la <strong>autocorrelación espacial del inóculo biológico</strong> (si hay focos activos a favor del viento) y fusiona teledetección satelital de 10m para evaluar la biomasa y susceptibilidad del cultivo en cada lote específico.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="faq-item glass-panel">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Qué resolución espacial y temporal ofrece la plataforma?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                La resolución óptica satelital es de <strong>10 x 10 metros por píxel</strong> proveniente de Sentinel-2 (con revisitaciones cada 2 a 5 días y modelos de interpolación temporal). Los datos climáticos y modelos de dispersión eólica se recalculan diariamente con datos horarios continuos de reanálisis y estaciones locales.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="faq-item glass-panel">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Es necesario instalar sensores físicos en cada lote?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                No. GeoRoya ML funciona en modo 100% satelital y de reanálisis climático sin necesidad de hardware en campo. No obstante, si el establecimiento cuenta con estaciones meteorológicas propias o sondas IoT, la plataforma las integra mediante API para calibrar aún más el microclima de canopia.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="faq-item glass-panel">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Qué ocurre si hay días con nubosidad sobre los lotes?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                El modelo cuenta con algoritmos de compensación temporal que proyectan la evolución del índice foliar y vigor según el crecimiento acumulado en grados-día (GDD). Además, los factores más críticos para la predicción temprana de infección durante días nublados son el balance de humedad y rocío, que se obtienen de capas meteorológicas independientes de la cobertura de nubes.
+              </p>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="faq-item glass-panel">
+            <button class="faq-question" aria-expanded="false">
+              <span>¿Cómo puedo participar del programa de validación y pilotos 2026?</span>
+              <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Buscamos establecimientos agrícolas, asesores técnicos y cooperativas interesadas en probar la plataforma en parcelas piloto. Completa el formulario al pie de esta página indicando tu ubicación y superficie para coordinar la parametrización de tus lotes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULARIO DE ACCESO TEMPRANO Y CONTACTO -->
+    <section class="section contact-section" id="contacto">
+      <div class="container">
+        <div class="contact-wrapper glass-panel">
+          <div class="contact-info">
+            <span class="section-badge">PROGRAMA PILOTO 2026</span>
+            <h2 class="contact-title">Súmate a la Red de Validación Agrícola</h2>
+            <p class="contact-desc">
+              Estamos seleccionando productores, asesores técnicos y centros de investigación para validar la plataforma durante la próxima campaña agrícola. Obtén acceso preferencial y mapas predictivos de tus lotes.
+            </p>
+
+            <div class="contact-highlights">
+              <div class="hl-item">
+                <div class="hl-dot"></div>
+                <div>
+                  <strong>Monitoreo predictivo gratuito</strong> durante la fase de prueba piloto.
+                </div>
+              </div>
+              <div class="hl-item">
+                <div class="hl-dot"></div>
+                <div>
+                  <strong>Acompañamiento agronómico</strong> con el equipo de fitopatología y ciencia de datos.
+                </div>
+              </div>
+              <div class="hl-item">
+                <div class="hl-dot"></div>
+                <div>
+                  <strong>Integración sencilla:</strong> Solo requerimos los polígonos KML/Shapefile de tus parcelas.
+                </div>
+              </div>
+            </div>
+
+            <div class="direct-contact-box">
+              <p class="direct-label">Contacto institucional:</p>
+              <p class="direct-email">innovacion@georoyaml.ag</p>
+              <p class="direct-sub">Cátedra Machine Learning • Proyecto I+D Fitosanitario</p>
+            </div>
+          </div>
+
+          <!-- Interactive Form with Validation -->
+          <div class="contact-form-container">
+            <form id="pilotForm" class="pilot-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="nombre">Nombre Completo *</label>
+                  <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej. Ing. Juan Pérez" required>
+                  <span class="error-msg" id="nombreError">Por favor ingresa tu nombre</span>
+                </div>
+                <div class="form-group">
+                  <label for="email">Correo Electrónico *</label>
+                  <input type="email" id="email" name="email" class="form-control" placeholder="juan.perez@empresa.com" required>
+                  <span class="error-msg" id="emailError">Ingresa un correo electrónico válido</span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="rol">Perfil / Rol *</label>
+                  <select id="rol" name="rol" class="form-control" required>
+                    <option value="">Selecciona tu rol...</option>
+                    <option value="productor">Productor / Administrador de Campo</option>
+                    <option value="asesor">Asesor Técnico / Ingeniero Agrónomo</option>
+                    <option value="cooperativa">Cooperativa / Acopio</option>
+                    <option value="investigador">Investigador / Ámbito Académico</option>
+                    <option value="otro">Empresa AgTech / Seguros</option>
+                  </select>
+                  <span class="error-msg" id="rolError">Selecciona una opción</span>
+                </div>
+                <div class="form-group">
+                  <label for="superficie">Superficie Estimada (ha)</label>
+                  <input type="number" id="superficie" name="superficie" class="form-control" placeholder="Ej. 1200" min="50">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="ubicacion">Ubicación de los Lotes (Localidad, Provincia) *</label>
+                <input type="text" id="ubicacion" name="ubicacion" class="form-control" placeholder="Ej. Marcos Juárez, Córdoba" required>
+                <span class="error-msg" id="ubicacionError">Indica la zona de tus lotes</span>
+              </div>
+
+              <div class="form-group">
+                <label for="mensaje">Comentarios o Antecedentes de Roya en la Zona</label>
+                <textarea id="mensaje" name="mensaje" class="form-control" rows="3" placeholder="¿Has tenido ataques de roya recientemente? ¿Qué esquema de monitoreo utilizas hoy?"></textarea>
+              </div>
+
+              <div class="form-checkbox">
+                <input type="checkbox" id="consentimiento" name="consentimiento" required>
+                <label for="consentimiento">Acepto compartir polígonos agronómicos confidenciales para la calibración del modelo en la campaña 2026.</label>
+                <span class="error-msg" id="consentError">Debes aceptar los términos para postular</span>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg" id="btnSubmitForm">
+                <span class="btn-text">Enviar Solicitud para Piloto</span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+            </form>
+
+            <!-- Success message state (hidden initially) -->
+            <div id="formSuccessModal" class="form-success-box" style="display: none;">
+              <div class="success-icon">✓</div>
+              <h3>¡Solicitud Recibida con Éxito!</h3>
+              <p>
+                Gracias por postularte para el piloto de <strong>GeoRoya ML</strong>. Hemos registrado tus datos y un miembro del equipo científico se contactará contigo para coordinar el ingreso de tus polígonos.
+              </p>
+              <button class="btn btn-secondary btn-sm" id="btnResetForm">Enviar otra consulta</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-col brand-col">
+        <div class="brand-logo">
+          <div class="logo-icon">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 2L4 9V23L16 30L28 23V9L16 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <circle cx="16" cy="16" r="4" fill="#10b981"/>
+            </svg>
+          </div>
+          <span class="brand-name">GeoRoya<span class="accent">ML</span></span>
+        </div>
+        <p class="footer-desc">
+          Proyecto de Innovación I+D en Spatial Machine Learning aplicado a la sanidad del cultivo de soja. Anticipación temprana frente a <em>Phakopsora pachyrhizi</em>.
+        </p>
+        <p class="footer-copyright">
+          © 2026 GeoRoya ML. Proyecto Académico & Científico de Innovación en Machine Learning. Todos los derechos reservados.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title">Navegación</h4>
+        <ul class="footer-links">
+          <li><a href="#problema">El Problema de la Roya</a></li>
+          <li><a href="#metodologia">Metodología & Pipeline</a></li>
+          <li><a href="#simulador">Simulador Geoespacial</a></li>
+          <li><a href="#validacion">Datos de Validación</a></li>
+          <li><a href="#calculadora">Calculadora de ROI</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title">Investigación & Tecnologías</h4>
+        <ul class="footer-links">
+          <li><a href="#metodologia">Spatial Cross-Validation</a></li>
+          <li><a href="#metodologia">Sentinel-2 & Teledetección</a></li>
+          <li><a href="#metodologia">Reanálisis Climático ERA5</a></li>
+          <li><a href="#equipo">Equipo Científico</a></li>
+          <li><a href="#faq">Preguntas Frecuentes</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-title">Validación</h4>
+        <p class="footer-subtext">Diseñado para la comunidad agronómica e investigadora de Argentina, Brasil, Paraguay y Uruguay.</p>
+        <div class="tech-badges-list">
+          <span class="tag-badge">Spatial ML</span>
+          <span class="tag-badge">Python</span>
+          <span class="tag-badge">GIS</span>
+          <span class="tag-badge">ESA Copernicus</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
